@@ -85,7 +85,9 @@ export default class Bubbles extends Component {
     const height = size * 5;
 
     return (
-      <Surface width={width} height={height}>
+      <Surface width={width} height={height}  style={{
+          backgroundColor: "transparent"
+        }}>
         {this.renderBar(0, 5)}
         {this.renderBar(1, 5)}
         {this.renderBar(2, 5)}
