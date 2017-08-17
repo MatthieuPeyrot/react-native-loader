@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { ART } from "react-native";
+import { ART, Animated } from "react-native";
 const { Surface } = ART;
 
 import Circle from "./animated/Circle";
