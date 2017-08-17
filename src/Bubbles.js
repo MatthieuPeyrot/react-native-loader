@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Animated, ART } from 'react-native';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { ART } from "react-native";
 const { Surface } = ART;
 
-import Circle from './animated/Circle';
+import Circle from "./animated/Circle";
 
 export default class Bubbles extends Component {
   static propTypes = {
@@ -14,8 +14,9 @@ export default class Bubbles extends Component {
 
   static defaultProps = {
     spaceBetween: 6,
+
     size: 11,
-    color: '#000'
+    color: "#000"
   };
 
   state = {
@@ -34,7 +35,7 @@ export default class Bubbles extends Component {
   }
 
   componentWillUnmount() {
-    this.timers.forEach((timer) => {
+    this.timers.forEach(timer => {
       clearTimeout(timer);
     });
 
@@ -44,22 +45,20 @@ export default class Bubbles extends Component {
   timers = [];
 
   animate(index) {
-    Animated
-      .sequence([
-        Animated.timing(this.state.circles[index], {
-          toValue: 1,
-          duration: 600
-        }),
-        Animated.timing(this.state.circles[index], {
-          toValue: 0,
-          duration: 600
-        })
-      ])
-      .start(() => {
-        if (!this.unmounted) {
-          this.animate(index);
-        }
-      });
+    Animated.sequence([
+      Animated.timing(this.state.circles[index], {
+        toValue: 1,
+        duration: 600
+      }),
+      Animated.timing(this.state.circles[index], {
+        toValue: 0,
+        duration: 600
+      })
+    ]).start(() => {
+      if (!this.unmounted) {
+        this.animate(index);
+      }
+    });
   }
 
   renderBubble(index) {
@@ -70,12 +69,7 @@ export default class Bubbles extends Component {
       y: size
     };
 
-    return (<Circle
-      fill={color}
-      radius={size}
-      scale={scale}
-      {...offset}
-    />);
+    return <Circle fill={color} radius={size} scale={scale} {...offset} />;
   }
 
   render() {
@@ -83,10 +77,18 @@ export default class Bubbles extends Component {
     const width = size * 6 + spaceBetween * 2;
     const height = size * 2;
 
-    return (<Surface width={width} height={height}>
-      {this.renderBubble(0)}
-      {this.renderBubble(1)}
-      {this.renderBubble(2)}
-    </Surface>);
+    return (
+      <Surface
+        width={width}
+        height={height}
+        style={{
+          backgroundColor: "transparent"
+        }}
+      >
+        {this.renderBubble(0)}
+        {this.renderBubble(1)}
+        {this.renderBubble(2)}
+      </Surface>
+    );
   }
 }

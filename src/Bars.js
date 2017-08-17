@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Animated, ART } from 'react-native';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Animated, ART } from "react-native";
 const { Surface } = ART;
 
-import Bar from './animated/Bar';
+import Bar from "./animated/Bar";
 
 export default class Bubbles extends Component {
   static propTypes = {
@@ -15,7 +15,7 @@ export default class Bubbles extends Component {
   static defaultProps = {
     spaceBetween: 4,
     size: 20,
-    color: '#000'
+    color: "#000"
   };
 
   state = {
@@ -43,51 +43,55 @@ export default class Bubbles extends Component {
   timers = [];
 
   animate(index) {
-    Animated
-      .sequence([
-        Animated.timing(this.state.bars[index], {
-          toValue: this.props.size * 2.5,
-          duration: 600
-        }),
-        Animated.timing(this.state.bars[index], {
-          toValue: this.props.size,
-          duration: 600
-        })
-      ])
-      .start(() => {
-        if (!this.unmounted) {
-          this.animate(index);
-        }
-      });
+    let toto = 2.5;
+    if (index === 0 || index === 4) toto = 1.2;
+    else if (index === 1 || index === 3) toto = 2;
+    Animated.sequence([
+      Animated.timing(this.state.bars[index], {
+        toValue: this.props.size * toto,
+        duration: 600
+      }),
+      Animated.timing(this.state.bars[index], {
+        toValue: this.props.size,
+        duration: 600
+      })
+    ]).start(() => {
+      if (!this.unmounted) {
+        this.animate(index);
+      }
+    });
   }
 
-  renderBar(index) {
+  renderBar(index, y) {
     const { size, spaceBetween, color } = this.props;
     const width = size / 3;
     const x = width / 2 + (width + spaceBetween) * index;
-
-    return (<Bar
-      fill={color}
-      width={width}
-      height={this.state.bars[index]}
-      originY={0.5 * size}
-      originX={0.5}
-      y={size * 1.5}
-      x={x}
-    />);
+    return (
+      <Bar
+        fill={color}
+        width={width}
+        height={this.state.bars[index]}
+        originY={0.5 * size}
+        originX={0.5}
+        y={y}
+        x={x}
+      />
+    );
   }
 
   render() {
     const { size, spaceBetween } = this.props;
-    const width = size / 3 * 5 + spaceBetween * 4;
-    const height = size * 3;
+    const width = size / 3 * 6 + spaceBetween * 4;
+    const height = size * 5;
 
-    return (<Surface width={width} height={height}>
-      {this.renderBar(0)}
-      {this.renderBar(1)}
-      {this.renderBar(2)}
-      {this.renderBar(3)}
-      {this.renderBar(4)}
-    </Surface>);
+    return (
+      <Surface width={width} height={height}>
+        {this.renderBar(0, 5)}
+        {this.renderBar(1, 5)}
+        {this.renderBar(2, 5)}
+        {this.renderBar(3, 5)}
+        {this.renderBar(4, 5)}
+      </Surface>
+    );
   }
 }
